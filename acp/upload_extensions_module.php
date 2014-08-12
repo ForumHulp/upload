@@ -462,7 +462,7 @@ class upload_extensions_module
 			));
 		}
 		
-		$string = file_get_contents($phpbb_root_path . 'ext/' . $destination . '/README.md');
+		$string = @file_get_contents($phpbb_root_path . 'ext/' . $destination . '/README.md');
 		if ($string !== false) $readme = MarkdownExtra::defaultTransform($string);
 		else $readme = false;
 		$template->assign_vars(array(
