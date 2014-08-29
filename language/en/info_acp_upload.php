@@ -7,8 +7,17 @@
 *
 */
 
-namespace forumhulp\upload;
-
-class ext extends \phpbb\extension\base
+if (!defined('IN_PHPBB'))
 {
+	exit;
 }
+
+if (empty($lang) || !is_array($lang))
+{
+	$lang = array();
+}
+
+$lang = array_merge($lang, array(
+	'ACP_UPLOAD_EXT_TITLE'				=> 'Upload Extensions',
+	'ACP_UPLOAD_EXT_CONFIG_TITLE'		=> 'Upload extensions',
+));

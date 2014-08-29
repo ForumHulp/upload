@@ -7,7 +7,7 @@
  *
  */
 
-namespace forumhulp\upload_extensions\event;
+namespace forumhulp\upload\event;
 
 if (!defined('IN_PHPBB'))
 {
@@ -48,8 +48,8 @@ class listener implements EventSubscriberInterface
 	{
 		$lang_set_ext = $event['lang_set_ext'];
 		$lang_set_ext[] = array(
-			'ext_name' => 'forumhulp/upload_extensions',
-			'lang_set' => 'upload_extensions',
+			'ext_name' => 'forumhulp/upload',
+			'lang_set' => 'upload',
 		);
 		$event['lang_set_ext'] = $lang_set_ext;
 	}
