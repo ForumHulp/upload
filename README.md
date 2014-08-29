@@ -3,7 +3,7 @@ Upload Extensions
 Upload Extensions enables you to upload extensions' zip files or delete extensions' folders from the server.
 With this extension you can install/update/delete extensions without using FTP. If the uploaded extension already exists, it will be updated with the uploaded files.
 
-[![Build Status](https://travis-ci.org/BoardTools/upload.svg?branch=master)](https://travis-ci.org/BoardTools/upload)
+[![Build Status](https://travis-ci.org/ForumHulp/upload.svg?branch=master)](https://travis-ci.org/ForumHulp/upload)
 
 ## Requirements
 * phpBB 3.1.0-dev or higher
