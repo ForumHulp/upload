@@ -12,9 +12,9 @@ With this extension you can install/update/delete extensions without using FTP. 
 ## Installation
 You can install this extension on the latest copy of the develop branch ([phpBB 3.1-dev](https://github.com/phpbb/phpbb3)) by doing the following:
 
-1. Download the [latest ZIP-archive of `master` branch of this repository](https://github.com/forumhulp/upload/archive/master.zip).
-2. Check out the existing of the folder `/ext/forumhulp/upload/` in the root of your board folder. Create folders if necessary.
-3. Copy the contents of the downloaded `upload-master` folder to `/ext/forumhulp/upload/`.
+1. Download the [latest ZIP-archive of `master` branch of this repository](https://github.com/BoardTools/upload/archive/master.zip).
+2. Check out the existing of the folder `/ext/boardtools/upload/` in the root of your board folder. Create folders if necessary.
+3. Copy the contents of the downloaded `upload-master` folder to `/ext/boardtools/upload/`.
 4. Navigate in the ACP to `Customise -> Extension Management -> Manage extensions -> Upload Extensions`.
 5. Click `Enable`.
 
@@ -31,16 +31,16 @@ Then navigate in the ACP to `Customise -> Extension Management -> Upload extensi
 Choose the extension that you want to delete and click `Delete extension`.
 
 ## Update
-1. Download the [latest ZIP-archive of `master` branch of this repository](https://github.com/forumhulp/upload/archive/master.zip).
+1. Download the [latest ZIP-archive of `master` branch of this repository](https://github.com/BoardTools/upload/archive/master.zip).
 2. Navigate in the ACP to `Customise -> Extension Management -> Manage extensions -> Upload Extensions` and click `Disable`.
-3. Copy the contents of the downloaded `upload-master` folder to `/ext/forumhulp/upload/`.
+3. Copy the contents of the downloaded `upload-master` folder to `/ext/boardtools/upload/`.
 4. Navigate in the ACP to `Customise -> Extension Management -> Manage extensions -> Upload Extensions` and click `Enable`.
 5. Click `Details` or `Re-Check all versions` link to follow updates.
 
 ## Uninstallation
 Navigate in the ACP to `Customise -> Extension Management -> Manage extensions -> Upload Extensions` and click `Disable`.
 
-For permanent uninstallation click `Delete Data` and then you can safely delete the `/ext/forumhulp/upload/` folder.
+For permanent uninstallation click `Delete Data` and then you can safely delete the `/ext/boardtools/upload/` folder.
 
 ## License
 [GNU General Public License v2](http://opensource.org/licenses/GPL-2.0)

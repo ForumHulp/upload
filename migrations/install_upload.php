@@ -7,7 +7,7 @@
 *
 */
 
-namespace forumhulp\upload\migration;
+namespace forumhulp\upload\migrations;
 
 class install_upload extends \phpbb\db\migration\migration
 {
