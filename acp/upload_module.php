@@ -103,7 +103,7 @@ class upload_module
 			case 'upload_remote':
 				if (!is_writable($this->ext_dir))
 				{
-					$this->trigger_error($user->lang('EXT_NOT_WRITABLE'));
+					$this->trigger_error($user->lang('EXT_NOT_WRITABLE'), E_USER_WARNING);
 				}
 				else if (!$this->upload_ext($action))
 				{
@@ -131,7 +131,7 @@ class upload_module
 						$this->rrmdir($phpbb_root_path . 'ext/' . $dir);
 						if($request->is_ajax())
 						{
-							trigger_error($user->lang('EXT_DELETE_SUCCESS'));
+							trigger_error($user->lang('EXT_DELETE_SUCCESS'), E_USER_WARNING);
 						}
 						else
 						{
@@ -152,7 +152,7 @@ class upload_module
 						$this->rrmdir($phpbb_root_path . 'ext/' . $zip_name);
 						if($request->is_ajax())
 						{
-							trigger_error($user->lang('EXT_ZIP_DELETE_SUCCESS'));
+							trigger_error($user->lang('EXT_ZIP_DELETE_SUCCESS'), E_USER_WARNING);
 						}
 						else
 						{
