@@ -251,11 +251,11 @@ class upload_module
 					$this->rrmdir($dir . '/' . $file);
 				}
 			}
-			rmdir($dir);
+			@rmdir($dir);
 		}
 		else if (file_exists($dir))
 		{
-			unlink($dir);
+			@unlink($dir);
 		}
 	}
 
@@ -268,7 +268,7 @@ class upload_module
 		}
 		if (is_dir($src))
 		{
-			mkdir($dst, 0777, true);
+			@mkdir($dst, 0777, true);
 			$files = scandir($src);
 			foreach($files as $file)
 			{
