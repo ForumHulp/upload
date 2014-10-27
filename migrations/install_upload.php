@@ -24,7 +24,7 @@ class install_upload extends \phpbb\db\migration\migration
 	public function update_data()
 	{
 		return array(
-			array('config.add', array('upload_version', '3.1.0.RC4')),
+			array('config.add', array('upload_version', '3.1.0')),
 			array('module.add', array(
 				'acp', 'ACP_EXTENSION_MANAGEMENT', array(
 					'module_basename'	=> '\forumhulp\upload\acp\upload_module',

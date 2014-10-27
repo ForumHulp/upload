@@ -95,13 +95,9 @@ class filetree
 						// File
 						// Get extension (prepend 'ext-' to prevent invalid classes from extensions that begin with numbers)
 						$ext = 'ext-' . substr($this_file, strrpos($this_file, '.') + 1);
-//						$link = '/adm/index.php?i=-forumhulp-upload-acp-upload_module&sid=90b2a79945e6a0c1f0b33626e9ffcffc&mode=main&file=' . $directory . '/' . urlencode($this_file);
+						$link = $uaction . '&file=' . $directory . '/' . urlencode($this_file);
 	
-	$link = $uaction . '&file=' . $directory . '/' . urlencode($this_file);
-
-	
-	
-						$php_file_tree .= '<li class="pft-file ' . strtolower($ext) . '" onclick="loadXMLDoc(\''. $link . '\')" title="' . $this_file . '"><span>' . htmlspecialchars($this_file) . '</span></li>';
+						$php_file_tree .= '<li class="pft-file ' . strtolower($ext) . '"' . (!in_array($ext, array('ext-gif', 'ext-jpg', 'ext-jpeg', 'ext-')) ? ' onclick="loadXMLDoc(\''. $link . '\')"' : '') . ' title="' . $this_file . '"><span>' . htmlspecialchars($this_file) . '</span></li>';
 					}
 				}
 			}
