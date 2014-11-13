@@ -46,30 +46,27 @@ $lang = array_merge($lang, array(
 	'EXTENSION_ZIP_DELETE_CONFIRM'		=> 'Bist du sicher das du das Zip-Archiv “%s” löschen möchtest?',
 	'EXT_ZIP_DELETE_SUCCESS'			=> 'Zip-Archiv erfolgreich gelöscht.',
 
-	'ACP_UPLOAD_EXT_ERROR_DEST'			=> 'Kein Anbieter oder Zielordner in der hochgeladenen ZIP-Datei. Die Datei wurde nicht auf dem Server gespeichert.',
-	'ACP_UPLOAD_EXT_ERROR_COMP'			=> 'Die Datei composer.json wurde nicht in der hochgeladenen Zip-Datei gefunden. Die Dateien wurden nicht auf dem Server gespeichert.',
-	'ACP_UPLOAD_EXT_ERROR_LICENSE'		=> 'No GPL-2.0 license. The file was not saved on the server.',
+	'ACP_UPLOAD_EXT_ERROR_DEST'			=> 'Kein Anbieter oder Zielordner in der hochgeladenen Zip-Datei. Die Datei wurde nicht auf dem Server gespeichert.',
+	'ACP_UPLOAD_EXT_ERROR_COMP'			=> 'Die Datei composer.json wurde nicht in der hochgeladenen Zip-Datei gefunden. Die Datei wurde nicht auf dem Server gespeichert.',
+	'ACP_UPLOAD_EXT_ERROR_NOT_SAVED'	=> 'Die Datei wurde nicht auf dem Server gespeichert.',
+	'ACP_UPLOAD_EXT_WRONG_RESTORE'		=> 'Ein Fehler ist bei der Aktualisierung einer bereits installierten Erweiterung aufgetreten. Bitte wiederhole die Aktualisierung.',
 
 	'UPLOAD_EXTENSIONS_DEVELOPERS'		=> 'Entwickler',
 
 	'SHOW_FILETREE'						=> '<< Verzeichnis anzeigen >>',
 	'HIDE_FILETREE'						=> '>> Verzeichnis ausblenden <<',
 
-	'ziperror'		=> array(
-		'10'		=> 'Datei existiert bereits.',
-		'21'		=> 'Zip-Archiv inkonsistent.',
-		'18'		=> 'falsches Argument.',
-		'14'		=> 'Malloc failure.',
-		'9'			=> 'Falsche, oder fehlende Datei.',
-		'19'		=> 'Dies ist kein Zip-Archiv.',
-		'11'		=> 'Datei kann nicht geöffnet werden.',
-		'5'			=> 'Fehler beim lesen der Datei.',
-		'4'			=> 'Fehler bei der Dateisuche.'
-	),
-
 	'EXT_UPLOAD_SAVE_ZIP'				=> 'Hochgeladenes Zip-Archiv speichern',
 	'ZIP_UPLOADED'						=> 'Zip-Archiv der Erweiterung hochgeladen',
 	'EXT_ENABLE'						=> 'Aktivieren',
 	'EXT_UPLOADED'						=> 'Hochgeladen',
+	'EXT_UPDATED'						=> 'aktualisiert',
+	'EXT_UPDATED_LATEST_VERSION'		=> 'auf die neueste Version aktualisiert',
 	'EXT_UPLOAD_BACK'					=> '« Zurück zum hochladen von Erweiterungen',
+
+	'ACP_UPLOAD_EXT_DIR'				=> 'Speicherpfad der Zip-Archive der Erweiterungen',
+	'ACP_UPLOAD_EXT_DIR_EXPLAIN'		=> 'Pfad unter dem phpBB root-Ordner, z.B. <samp>ext</samp>.<br />Du kannst diesen Pfad ändern um die Zip-Archive in einem besonderen Ordner zu speichern (z.B. in <em>downloads</em>, wenn du deinen Mitgliedern die Möglichkeit geben willst, die Archive runterzuladen, oder in einen Pfad außerhalb des http-roots om einen Zugriff von außen zu unterbinden (oder in einem Ordner mit einer entsprechenden .htaccess-Datei)).',
+
+	'ACP_UPLOAD_EXT_UPDATED'			=> 'Die installierte Erweiterung wurde aktualisiert.',
+	'ACP_UPLOAD_EXT_UPDATED_EXPLAIN'	=> 'Du hast ein Zip-Archiv zu einer bereits installierten Erweiterung hochgeladen. Diese Erweiterung wurde <strong>automatisch deaktiviert</strong> um eine sichere Aktualiserung zu gewährleisten. Bitte <strong>kontrolliere</strong>, daß die hochgeladenen Daten korrekt sind und <strong>aktiviere</strong> danach die Erweiterung.',
 ));

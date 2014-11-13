@@ -13,7 +13,7 @@ class install_upload extends \phpbb\db\migration\migration
 {
 	public function effectively_installed()
 	{
-		return isset($this->config['upload_version']) && version_compare($this->config['upload_version'], '3.1.0.RC4', '>=');
+		return isset($this->config['upload_version']) && version_compare($this->config['upload_version'], '3.1.0', '>=');
 	}
 
 	static public function depends_on()

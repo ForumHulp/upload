@@ -2,9 +2,9 @@
     "name": "forumhulp/upload",
     "type": "phpbb-extension",
     "description": "Upload Extensions enables you to upload extensions' zip files or delete extensions' folders from the server. With this extension you can install/update/delete extensions without using FTP. If the uploaded extension already exists, it will be updated with the uploaded files.",
-    "homepage": "http://forumhulp.com",
+    "homepage": "http://github.com/ForumHulp/upload",
     "version": "3.1.0",
-    "keywords": ["forumhulp", "forumhulp", "phpbb", "extension", "upload", "unzip", "zip"],
+    "keywords": ["forumhulp", "boardtools", "phpbb", "extension", "upload", "unzip", "zip", "delete", "unpack"],
     "license": "GPL-2.0",
     "authors": [
         {
@@ -28,7 +28,7 @@
     "extra": {
         "display-name": "Upload Extensions",
         "soft-require": {
-           "phpbb/phpbb": "3.1.*"
+           "phpbb/phpbb": ">=3.1.*"
         },
         "version-check": {
             "host": "forumhulp.com",

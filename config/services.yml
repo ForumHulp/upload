@@ -1,0 +1,7 @@
+services:
+    forumhulp.upload.listener:
+        class: forumhulp\upload\event\listener
+        arguments:
+            - @user
+        tags:
+            - { name: event.listener }

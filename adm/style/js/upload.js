@@ -11,7 +11,7 @@
 	$("#extupload").css("display", "none");
 	$("#button_upload").css("display", "inline-block");
 
-	$("#submit").click(function () {
+	$("#submit, .unpack_zip").click(function () {
 		$("#ext_upload_content").css("display", "none");
 		$("#upload").css("display", "block");
 	});
@@ -31,6 +31,18 @@
 			$("#markdown").fadeIn(1000);
 		});
 	});
+
+	$("#valid_phpbb_ext").bind('change keyup', function () {
+		if ($(this).val() !== '')
+		{
+			$("#remote_upload").val($(this).val());
+			$("#remote_upload, #button_upload").css("display", "none");
+		}
+		else
+		{
+			$("#remote_upload, #button_upload").css("display", "inline-block");
+		}
+	});
 })(jQuery, window, document);
 
 function browseFile() 
@@ -45,22 +57,13 @@ function setFileName()
 
 function loadXMLDoc(url)
 {
-	var xmlhttp;
-	if (window.XMLHttpRequest)
-	{// code for IE7+, Firefox, Chrome, Opera, Safari
-		xmlhttp=new XMLHttpRequest();
-	} else
-	{// code for IE6, IE5
-		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-	}
-	xmlhttp.onreadystatechange=function()
-	{
-		if (xmlhttp.readyState==4 && xmlhttp.status==200)
-		{
-			document.getElementById("filecontent").style.display="block";
-			document.getElementById("filecontent").innerHTML=xmlhttp.responseText;
-		}
-	}
-	xmlhttp.open("GET",url,true);
-	xmlhttp.send();
+	; (function ($, window, document) {
+		// do stuff here and use $, window and document safely
+		// https://www.phpbb.com/community/viewtopic.php?p=13589106#p13589106
+		$("#filecontent_wrapper").fadeOut(500, function () {
+			$("#filecontent").load(url, function () {
+				$("#filecontent_wrapper").fadeIn(500);
+			});
+		});
+	})(jQuery, window, document);
 }

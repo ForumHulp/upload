@@ -23,7 +23,7 @@ class filetree
 	public static function php_file_tree($directory, $display_name, $uaction, $extensions = array())
 	{
 		global $user;
-		
+
 		$code = $user->lang('ACP_UPLOAD_EXT_CONT', $display_name) . '<br /><br />';
 		if(substr($directory, -1) == '/' )
 		{
@@ -96,8 +96,7 @@ class filetree
 						// Get extension (prepend 'ext-' to prevent invalid classes from extensions that begin with numbers)
 						$ext = 'ext-' . substr($this_file, strrpos($this_file, '.') + 1);
 						$link = $uaction . '&file=' . $directory . '/' . urlencode($this_file);
-	
-						$php_file_tree .= '<li class="pft-file ' . strtolower($ext) . '"' . (!in_array($ext, array('ext-gif', 'ext-jpg', 'ext-jpeg', 'ext-')) ? ' onclick="loadXMLDoc(\''. $link . '\')"' : '') . ' title="' . $this_file . '"><span>' . htmlspecialchars($this_file) . '</span></li>';
+						$php_file_tree .= '<li class="pft-file ' . strtolower($ext) . '" onclick="loadXMLDoc(\''. $link . '\')" title="' . $this_file . '"><span>' . htmlspecialchars($this_file) . '</span></li>';
 					}
 				}
 			}

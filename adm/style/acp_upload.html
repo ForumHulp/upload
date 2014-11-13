@@ -1,5 +1,5 @@
 <!-- IF S_ALLOW_CDN -->
-<!-- INCLUDECSS //maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css -->
+<!-- INCLUDECSS //maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css -->
 <!-- ELSE -->
 <!-- INCLUDECSS ./../../ext/forumhulp/upload/vendor/font-awesome/css/font-awesome.min.css -->
 <!-- ENDIF -->
@@ -10,19 +10,31 @@
 
 <a name="maincontent"></a>
 
-<h1>{L_ACP_UPLOAD_EXT_TITLE} <a href="{U_ACTION}&amp;action=details" class="simpledialog"><i class="fa fa-info-circle"></i></a></h1>
+<h1>{L_ACP_UPLOAD_EXT_TITLE} <a href="{U_ACTION}&amp;action=details" class="simpledialog"><i class="fa fa-info-circle"></i></a><!-- IF UPLOAD_EXT_NEW_UPDATE and not S_UPLOADED_SELF and not S_UPDATED_SELF --><a href="{U_ACTION}&amp;action=details" class="simpledialog" id="enable_uploaded"><i class="fa fa-refresh"></i> {L_UPDATE}</a><!-- ENDIF --></h1>
 
 <p>{L_ACP_UPLOAD_EXT_TITLE_EXPLAIN}</p>
 
-<!-- IF S_UPLOADED -->
+<!-- IF S_NEXT_STEP -->
+	<div class="successbox notice">
+		<p>{L_EXTENSION_DISABLE_IN_PROGRESS}</p>
+	</div>
+<!-- ELSEIF S_UPLOADED -->
 <!-- INCLUDEJS js/php_file_tree_jquery.js -->
-    <hr />
+	<hr />
 	<a href="{S_ACTION_BACK}" id="back_to_upload">{L_EXT_UPLOAD_BACK}</a>
-	<h1><i class="fa fa-check" id="uploaded_ok"></i>{S_UPLOADED} - {L_EXT_UPLOADED}<a href="{S_ACTION}" id="enable_uploaded"><i class="fa fa-power-off"></i> {L_EXT_ENABLE}</a></h1>
+	<!-- IF EXT_UPDATED -->
+		<fieldset class="ext_updated_notice">
+			<div>
+				<h1><i class="fa fa-refresh"></i> {L_ACP_UPLOAD_EXT_UPDATED}</h1>
+				<p>{L_ACP_UPLOAD_EXT_UPDATED_EXPLAIN}</p>
+			</div>
+		</fieldset>
+	<!-- ENDIF -->
+	<h1><i class="fa fa-check" id="uploaded_ok"></i>{S_UPLOADED} - <!-- IF EXT_UPDATED -->{L_EXT_UPDATED}<!-- ELSE -->{L_EXT_UPLOADED}<!-- ENDIF --><a href="{S_ACTION}" id="enable_uploaded"><i class="fa fa-power-off"></i> <!-- IF S_UPLOADED_SELF -->{L_UPDATE}<!-- ELSE -->{L_EXT_ENABLE}<!-- ENDIF --></a></h1>
 	<div>
 		<br />
-        <!-- IF .authors -->
-		Authors:
+		<!-- IF .authors -->
+		{L_UPLOAD_EXTENSIONS_DEVELOPERS}:
 		<!-- BEGIN authors -->
 		{authors.AUTHOR}<!-- IF not authors.S_LAST_ROW -->, <!-- ENDIF -->
 		<!-- END authors -->
@@ -46,19 +58,31 @@
 	<!-- IF UPLOAD_ERROR -->
 	<div class="errorbox">{UPLOAD_ERROR}</div>
 	<!-- ENDIF -->
+	<!-- IF S_UPDATED_SELF -->
+	<fieldset class="ext_self_updated_notice">
+		<h1><i class="fa fa-check" id="uploaded_ok"></i>{S_UPDATED_SELF} - {L_EXT_UPDATED_LATEST_VERSION}</h1>
+	</fieldset>
+	<!-- ENDIF -->
     <form action="{U_UPLOAD}" method="post" id="ext_upload" autocomplete="off" {S_FORM_ENCTYPE}>
         <fieldset>
             <legend>{L_EXTENSION_UPLOAD}</legend>
             <div id="ext_upload_content">
                 <p>{L_EXTENSION_UPLOAD_EXPLAIN}</p>
-                <input type="text" id="remote_upload" name="remote_upload" />
-                <input type="button" id="button_upload" style="display:none;" value="{L_BROWSE}" onclick="browseFile();" />
-                <input type="file" id="extupload" name="extupload" accept=".zip" onchange="setFileName();" />
+				<!-- IF VALID_PHPBB_EXT -->
+				<div id="valid_phpbb_ext_wrapper">
+					phpbb.com CDB:
+					<select id="valid_phpbb_ext" name="valid_phpbb_ext">
+						<option value="">---</option>{VALID_PHPBB_EXT}
+					</select>
+				</div>
+				<!-- ENDIF -->
+				<input type="text" id="remote_upload" name="remote_upload" />
+				<input type="button" id="button_upload" style="display:none;" value="{L_BROWSE}" onclick="browseFile();" />
+				<input type="file" id="extupload" name="extupload" accept=".zip" onchange="setFileName();" />
                 {S_FORM_TOKEN}
                 {S_HIDDEN_FIELDS}
-                <br />
-                <br />
-                <input type="checkbox" name="keepext" id="keepext" title="Keep extension" />
+                <span id="br_form_upload"></span>
+				<input type="checkbox" name="keepext" id="keepext" title="{L_EXT_UPLOAD_SAVE_ZIP}" />
                 <label for="keepext">{L_EXT_UPLOAD_SAVE_ZIP}</label>
                 <input class="button1" type="submit" name="submit" value="{L_UPLOAD}" id="submit" />
             </div>
@@ -66,16 +90,16 @@
         </fieldset>
     </form>
     <!-- IF .zip -->
-    <table style="width:100%; table-layout: fixed; margin-top:16px;">
+    <table class="ext_zips_table">
     <tbody>
     <tr>
         <td class="row3" colspan="2"><strong>{L_ZIP_UPLOADED}</strong></td>
     </tr>
     <!-- BEGIN zip -->
     <tr class="ext_disabled">
-		<td style="width:50%;"><div style="width:100%; overflow:hidden; text-overflow:ellipsis;white-space:nowrap; font-size:100%;"><strong>{zip.META_DISPLAY_NAME}</strong></div></td>
+		<td class="zip_name"><div class="ext_zip_name"><strong>{zip.META_DISPLAY_NAME}</strong></div></td>
         <td style="text-align: center;">
-			<a href="{zip.U_UPLOAD}">{L_ACP_UPLOAD_EXT_UNPACK}</a> | <a href="{zip.U_DELETE}" data-ajax="row_delete">{L_EXTENSION_ZIP_DELETE}</a>
+			<a href="{zip.U_UPLOAD}" class="unpack_zip">{L_ACP_UPLOAD_EXT_UNPACK}</a> | <a href="{zip.U_DOWNLOAD}">{L_DOWNLOAD}</a> | <a href="{zip.U_DELETE}" data-ajax="row_delete">{L_EXTENSION_ZIP_DELETE}</a>
 		</td>
     </tr>
     <!-- END zip -->
@@ -95,6 +119,7 @@
     <!-- ENDIF -->
     <!-- IF .disabled -->
     <table id="ext_table">
+		<tbody>
         <tr>
             <td class="row3" colspan="3"><strong>{L_EXTENSIONS_AVAILABLE}</strong></td>
         </tr>
