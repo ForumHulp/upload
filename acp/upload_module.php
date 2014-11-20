@@ -89,10 +89,10 @@ class upload_module
 
 				$md_manager->output_template_data();
 
-				if ($this->self_update !== false)
+				if ($this->self_update !== false && (preg_match('#^(https://)www.phpbb.com/customise/db/download/([0-9]*?)$#i', $this->self_update)))
 				{
 					$template->assign_vars(array(
-						'U_UPLOAD_EXT_UPDATE'	=> $this->main_link . '&amp;action=upload_self',
+						'U_UPLOAD_EXT_UPDATE'	=> $this->main_link . '&amp;action=upload_self_confirm',
 					));
 				}
 
@@ -143,6 +143,17 @@ class upload_module
 				));
 				break;
 
+			case 'upload_self_confirm':
+				$template->assign_vars(array(
+					'U_ACTION'			=> $this->u_action,
+					'U_UPLOAD'			=> $this->main_link . '&amp;action=upload_self',
+					'U_UPLOAD_EXT_SELF'	=> $this->self_update,
+					'S_UPLOAD_EXT_SELF'	=> true,
+					'S_HIDDEN_FIELDS'	=> build_hidden_fields(array('self_update'	=> $this->self_update)),
+					'S_FORM_ENCTYPE'	=> '',
+				));
+				break;
+
 			case 'download':
 				$zip_name = $request->variable('zip_name', '');
 				if ($zip_name != '')
@@ -152,20 +163,9 @@ class upload_module
 
 					$mimetype = 'application/zip';
 
-					header('Cache-Control: private, no-cache');
-					header("Content-Type: $mimetype; name=\"$download_name.zip\"");
-					header("Content-disposition: attachment; filename=$download_name.zip");
+					include($phpbb_root_path . 'ext/forumhulp/upload/vendor/filetree/filedownload.' . $phpEx);
 
-					$fp = @fopen("$filename.zip", 'rb');
-					if ($fp)
-					{
-						while ($buffer = fread($fp, 1024))
-						{
-							echo $buffer;
-						}
-						fclose($fp);
-					}
-					else
+					if (!(\filedownload::download_file($filename, $download_name, $mimetype)))
 					{
 						redirect($this->main_link);
 					}
@@ -206,7 +206,7 @@ class upload_module
 						}
 						else
 						{
-							trigger_error($user->lang['NO_UPLOAD_FILE'] . $this->back_link, E_USER_WARNING);
+							trigger_error($user->lang['EXT_DELETE_ERROR'] . $this->back_link, E_USER_WARNING);
 						}
 					} else {
 						confirm_box(false, $user->lang('EXTENSION_DELETE_CONFIRM', $ext_name), build_hidden_fields(array(
@@ -235,7 +235,7 @@ class upload_module
 						}
 						else
 						{
-							trigger_error($user->lang['NO_UPLOAD_FILE'] . $this->back_link, E_USER_WARNING);
+							trigger_error($user->lang['EXT_ZIP_DELETE_ERROR'] . $this->back_link, E_USER_WARNING);
 						}
 					} else {
 						confirm_box(false, $user->lang('EXTENSION_ZIP_DELETE_CONFIRM', $zip_name), build_hidden_fields(array(
@@ -271,7 +271,7 @@ class upload_module
 		{
 			if ($ff != '.' && $ff != '..')
 			{
-				if (strpos($ff,'.zip') == (strlen($ff) - 4))
+				if (strpos($ff,'.zip') === (strlen($ff) - 4))
 				{
 					$zip_array[] = array(
 						'META_DISPLAY_NAME'	=> $ff,
@@ -339,7 +339,7 @@ class upload_module
 		{
 			if (!(@unlink($dir)))
 			{
-				$this->trigger_error($user->lang['NO_UPLOAD_FILE'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['NO_UPLOAD_FILE'], E_USER_WARNING);
 				return false;
 			}
 		}
@@ -491,7 +491,10 @@ class upload_module
 		//$can_upload = (@ini_get('file_uploads') == '0' || strtolower(@ini_get('file_uploads')) == 'off' || !@extension_loaded('zlib')) ? false : true;
 
 		$user->add_lang('posting');  // For error messages
-		include($phpbb_root_path . 'includes/functions_upload.' . $phpEx);
+		if (!class_exists('\fileupload'))
+		{
+			include($phpbb_root_path . 'includes/functions_upload.' . $phpEx);
+		}
 		$upload = new \fileupload();
 		$upload->set_allowed_extensions(array('zip'));	// Only allow ZIP files
 
@@ -505,7 +508,7 @@ class upload_module
 
 		if (!is_writable($phpbb_root_path . 'ext'))
 		{
-			$this->trigger_error($user->lang['EXT_NOT_WRITABLE'] . $this->back_link, E_USER_WARNING);
+			$this->trigger_error($user->lang['EXT_NOT_WRITABLE'], E_USER_WARNING);
 			return false;
 		}
 
@@ -529,13 +532,14 @@ class upload_module
 		}
 		else if ($action == 'upload_self')
 		{
-			if ($this->self_update !== false && (preg_match('#^(https://)www.phpbb.com/customise/db/download/([0-9]*?)$#i', $this->self_update, $match_phpbb)) || (preg_match('#^(https://)github.com/ForumHulp/upload/archive/(.*?)\.zip$#i', $this->self_update, $match_phpbb)))
+			$this->self_update = $request->variable('self_update', '');
+			if ($this->self_update !== false && (preg_match('#^(https://)www.phpbb.com/customise/db/download/([0-9]*?)$#i', $this->self_update)))
 			{
 				$file = $this->remote_upload($upload, $this->self_update);
 			}
 			else
 			{
-				$this->trigger_error($user->lang['EXT_UPLOAD_ERROR'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['EXT_UPLOAD_ERROR'], E_USER_WARNING);
 				return false;
 			}
 		}
@@ -550,13 +554,13 @@ class upload_module
 			{
 				if (empty($file->filename))
 				{
-					$this->trigger_error((sizeof($file->error) ? implode('<br />', $file->error) : $user->lang['NO_UPLOAD_FILE']) . $this->back_link, E_USER_WARNING);
+					$this->trigger_error((sizeof($file->error) ? implode('<br />', $file->error) : $user->lang['NO_UPLOAD_FILE']), E_USER_WARNING);
 					return false;
 				}
 				else if ($file->init_error || sizeof($file->error))
 				{
 					$file->remove();
-					$this->trigger_error((sizeof($file->error) ? implode('<br />', $file->error) : $user->lang['EXT_UPLOAD_INIT_FAIL']) . $this->back_link, E_USER_WARNING);
+					$this->trigger_error((sizeof($file->error) ? implode('<br />', $file->error) : $user->lang['EXT_UPLOAD_INIT_FAIL']), E_USER_WARNING);
 					return false;
 				}
 
@@ -566,7 +570,7 @@ class upload_module
 				if (sizeof($file->error))
 				{
 					$file->remove();
-					$this->trigger_error(implode('<br />', $file->error) . $this->back_link, E_USER_WARNING);
+					$this->trigger_error(implode('<br />', $file->error), E_USER_WARNING);
 					return false;
 				}
 				$dest_file = $file->destination_file;
@@ -576,7 +580,10 @@ class upload_module
 				$dest_file = $upload_dir . '/' . $request->variable('local_upload', '');
 			}
 
-			include_once($phpbb_root_path . 'includes/functions_compress.' . $phpEx);
+			if (!class_exists('\compress_zip'))
+			{
+				include($phpbb_root_path . 'includes/functions_compress.' . $phpEx);
+			}
 
 			// We need to use the user ID and the time to escape from problems with simultaneous uploads.
 			// We suppose that one user can upload only one extension per session.
@@ -596,7 +603,7 @@ class upload_module
 			{
 				$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
 				$file->remove();
-				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_ERROR_COMP'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_ERROR_COMP'], E_USER_WARNING);
 				return false;
 			}
 			$string = @file_get_contents($composery);
@@ -604,7 +611,7 @@ class upload_module
 			{
 				$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
 				$file->remove();
-				$this->trigger_error($user->lang['EXT_UPLOAD_ERROR'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['EXT_UPLOAD_ERROR'], E_USER_WARNING);
 				return false;
 			}
 			$json_a = json_decode($string, true);
@@ -614,14 +621,14 @@ class upload_module
 			{
 				$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
 				$file->remove();
-				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_ERROR_DEST'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_ERROR_DEST'], E_USER_WARNING);
 				return false;
 			}
 			else if (strpos($destination, $this->upload_ext_name) !== false && $action != 'upload_self')
 			{
 				$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
 				$file->remove();
-				$this->trigger_error($user->lang['EXT_UPLOAD_ERROR'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['EXT_UPLOAD_ERROR'], E_USER_WARNING);
 				return false;
 			}
 			$display_name = (isset($json_a['extra']['display-name'])) ? $json_a['extra']['display-name'] : 'Unknown extension';
@@ -632,7 +639,7 @@ class upload_module
 				{
 					$file->remove();
 				}
-				$this->trigger_error($user->lang['NOT_AN_EXTENSION'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['NOT_AN_EXTENSION'], E_USER_WARNING);
 				return false;
 			}
 			$source = substr($composery, 0, -14);
@@ -662,7 +669,7 @@ class upload_module
 					{
 						$file->remove();
 					}
-					$this->trigger_error($user->lang['EXTENSION_NOT_AVAILABLE'] . $this->back_link, E_USER_WARNING);
+					$this->trigger_error($user->lang['EXTENSION_NOT_AVAILABLE'], E_USER_WARNING);
 					return false;
 				}
 			}
@@ -673,7 +680,7 @@ class upload_module
 				{
 					$file->remove();
 				}
-				$this->trigger_error($e . ' ' . $user->lang['ACP_UPLOAD_EXT_ERROR_NOT_SAVED'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($e . ' ' . $user->lang['ACP_UPLOAD_EXT_ERROR_NOT_SAVED'], E_USER_WARNING);
 				return false;
 			}
 
@@ -714,14 +721,14 @@ class upload_module
 			$ext_tmp = 'tmp/' . (int) $user->data['user_id'];
 			if (!is_dir($phpbb_root_path . 'ext/' . $ext_tmp) || !($composery = $this->getComposer($phpbb_root_path . 'ext/' . $ext_tmp)) || !($string = @file_get_contents($composery)))
 			{
-				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'], E_USER_WARNING);
 				return false;
 			}
 			$json_a = json_decode($string, true);
 			$destination = (isset($json_a['name'])) ? $json_a['name'] : '';
 			if (strpos($destination, '/') === false)
 			{
-				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'], E_USER_WARNING);
 				return false;
 			}
 			$source = substr($composery, 0, -14);
@@ -734,22 +741,22 @@ class upload_module
 			$ext_tmp = 'forumhulp/new_upload';
 			if (!is_dir($phpbb_root_path . 'ext/' . $ext_tmp) || !($composery = $this->getComposer($phpbb_root_path . 'ext/' . $ext_tmp)) || !($string = @file_get_contents($composery)))
 			{
-				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'], E_USER_WARNING);
 				return false;
 			}
 			$json_a = json_decode($string, true);
 			$destination = (isset($json_a['name'])) ? $json_a['name'] : '';
 			if (strpos($destination, 'forumhulp/') === false)
 			{
-				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'] . $this->back_link, E_USER_WARNING);
+				$this->trigger_error($user->lang['ACP_UPLOAD_EXT_WRONG_RESTORE'], E_USER_WARNING);
 				return false;
 			}
 			$source = substr($composery, 0, -14);
 			$display_name = (isset($json_a['extra']['display-name'])) ? $json_a['extra']['display-name'] : 'Unknown extension';
 		}
+		$made_update = false;
 		if ($action != 'upload_self' && $action != 'upload_self_update')
 		{
-			$made_update = false;
 			// Delete the previous version of extension files - we're able to update them.
 			if (is_dir($phpbb_root_path . 'ext/' . $destination))
 			{
@@ -845,7 +852,10 @@ class upload_module
 	function save_zip_archive($dest_file, $dest_name)
 	{
 		global $phpbb_root_path, $phpEx;
-		include_once($phpbb_root_path . 'includes/functions_compress.' . $phpEx);
+		if (!class_exists('\compress_zip'))
+		{
+			include($phpbb_root_path . 'includes/functions_compress.' . $phpEx);
+		}
 
 		$zip = new \compress_zip('w', $this->zip_dir . '/' . $dest_name . '.zip');
 		$zip->add_file($dest_file);
