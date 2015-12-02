@@ -19,10 +19,10 @@ class upload_info
 			'version'    => '1.0.0',
 			'modes'        => array(
 				'main'		=> array(
-											'title'	=> 'ACP_UPLOAD_EXT_CONFIG_TITLE',
-											'auth'	=> 'ext_forumhulp/upload && acl_a_extensions',
-											'cat'	=> array('ACP_EXTENSION_MANAGEMENT')
-									),
+						'title'	=> 'ACP_UPLOAD_EXT_CONFIG_TITLE',
+						'auth'	=> 'ext_forumhulp/upload && acl_a_extensions',
+						'cat'	=> array('ACP_EXTENSION_MANAGEMENT')
+				),
 			),
 		);
 	}

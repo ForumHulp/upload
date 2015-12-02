@@ -73,4 +73,5 @@ $lang = array_merge($lang, array(
 	'ACP_UPLOAD_EXT_UPDATED_EXPLAIN'	=> 'Je hebt een zip bestand geüpload voor een extensie die al geïnstalleerd is. Deze extensie <strong>is automatisch uitgeschakeld</strong> om het update proces veiliger te maken. <strong>Controleer</strong> nu of de geüploade bestanden juist zijn en <strong>schakel de extensie in</strong> als het gebruikt wordt op het forum.',
 
 	'VALID_PHPBB_EXTENSIONS'			=> 'phpbb.com CDB',
+	'EXT_VERSION_LETTER'				=> 'v',
 ));

@@ -18,8 +18,8 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, array(
-	'ACP_UPLOAD_EXT_TITLE'			=> 'Subir Extensiones',
-	'ACP_UPLOAD_EXT_CONFIG_TITLE'	=> 'Subir Extensiones',
+	'ACP_UPLOAD_EXT_TITLE'			=> 'Carica estensione',
+	'ACP_UPLOAD_EXT_CONFIG_TITLE'	=> 'Carica estensione',
 	'FH_HELPER_NOTICE'				=> 'Forumhulp helper application does not exist!<br />Download <a href="https://github.com/ForumHulp/helper" target="_blank">forumhulp/helper</a> and copy the helper folder to your forumhulp extension folder.',
 	'UPLOAD_NOTICE'					=> '<div class="phpinfo"><p class="entry">This extension resides in %1$s » %2$s » %3$s.<br />Upload extensions and unpack and enable them!<br />Config settings are in  %4$s » %5$s » %6$s.</p></div>',
 ));
