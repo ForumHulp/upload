@@ -3,7 +3,7 @@ Upload Extensions
 Upload Extensions enables you to upload extensions' zip files or delete extensions' folders from the server.
 With this extension you can install/update/delete extensions without using FTP. If the uploaded extension already exists, it will be updated with the uploaded files.
 
-[![Build Status](https://travis-ci.org/BoardTools/upload.svg?branch=master)](https://travis-ci.org/BoardTools/upload)
+[![Build Status](https://travis-ci.org/ForumHulp/upload.svg?branch=master)](https://travis-ci.org/ForumHulp/upload)
 
 ## Requirements
 * phpBB 3.1.0 or higher
@@ -12,9 +12,9 @@ With this extension you can install/update/delete extensions without using FTP. 
 ## Installation
 You can install this extension on the latest version of [phpBB 3.1](https://www.phpbb.com/downloads/) or on the latest development version of [phpBB 3.1-dev](https://github.com/phpbb/phpbb3) by doing the following:
 
-1. Download the extension. You can do it [directly from phpbb.com](https://www.phpbb.com/customise/db/extension/upload/) or by downloading the [latest ZIP-archive of `master` branch of its GitHub repository](https://github.com/BoardTools/upload/archive/master.zip).
-2. Check out the existence of the folder `/ext/boardtools/upload/` in the root of your board folder. Create folders if necessary.
-3. Copy the contents of the downloaded `upload-master` folder to `/ext/boardtools/upload/`.
+1. Download the extension. You can do it [directly from phpbb.com](https://www.phpbb.com/customise/db/extension/upload/) or by downloading the [latest ZIP-archive of `master` branch of its GitHub repository](https://github.com/ForumHulp/upload/archive/master.zip).
+2. Check out the existence of the folder `/ext/forumhulp/upload/` in the root of your board folder. Create folders if necessary.
+3. Copy the contents of the downloaded `upload-master` folder to `/ext/forumhulp/upload/`.
 4. Navigate in the ACP to `Customise -> Extension Management -> Manage extensions -> Upload Extensions`.
 5. Click `Enable`.
 
@@ -62,16 +62,16 @@ If you have uploaded different zip files with the same name, they will be rename
 3. Click on it and also click on other `Update` buttons that will appear on the screen. And the extension will be updated!
 
 ### Standard update
-1. Download the updated extension. You can do it [directly from phpbb.com](https://www.phpbb.com/customise/db/extension/upload/) or by downloading the [latest ZIP-archive of `master` branch of its GitHub repository](https://github.com/BoardTools/upload/archive/master.zip).
+1. Download the updated extension. You can do it [directly from phpbb.com](https://www.phpbb.com/customise/db/extension/upload/) or by downloading the [latest ZIP-archive of `master` branch of its GitHub repository](https://github.com/ForumHulp/upload/archive/master.zip).
 2. Navigate in the ACP to `Customise -> Extension Management -> Manage extensions -> Upload Extensions` and click `Disable`.
-3. Copy the contents of the downloaded `upload-master` folder to `/ext/boardtools/upload/`.
+3. Copy the contents of the downloaded `upload-master` folder to `/ext/forumhulp/upload/`.
 4. Navigate in the ACP to `Customise -> Extension Management -> Manage extensions -> Upload Extensions` and click `Enable`.
 5. Click `Details` or `Re-Check all versions` link to follow updates.
 
 ## Uninstallation
 Navigate in the ACP to `Customise -> Extension Management -> Manage extensions -> Upload Extensions` and click `Disable`.
 
-For permanent uninstallation click `Delete Data` and then you can safely delete the `/ext/boardtools/upload/` folder.
+For permanent uninstallation click `Delete Data` and then you can safely delete the `/ext/forumhulp/upload/` folder.
 
 ## License
 [GNU General Public License v2](http://opensource.org/licenses/GPL-2.0)
