@@ -28,7 +28,7 @@ class ext extends \phpbb\extension\base
 	}
 
 	/**
-	 * Overwrite enable_step to enable Badge Award notifications
+	 * Overwrite enable_step to enable upload extension
 	 * before any included migrations are installed.
 	 *
 	 * @param mixed $old_state State returned by previous call of this method
