@@ -16,14 +16,14 @@ class ext extends \phpbb\extension\base
 		if (!class_exists('forumhulp\helper\helper'))
 		{
 			$this->container->get('user')->add_lang_ext('forumhulp/upload', 'info_acp_upload');
-			trigger_error($this->container->get('user')->lang['FH_HELPER_NOTICE'], E_USER_WARNING);	
+			trigger_error($this->container->get('user')->lang['FH_HELPER_NOTICE'], E_USER_WARNING);
 		}
-		
+
 		if (!$this->container->get('ext.manager')->is_enabled('forumhulp/helper'))
 		{
 			$this->container->get('ext.manager')->enable('forumhulp/helper');
 		}
-		
+
 		return class_exists('forumhulp\helper\helper');
 	}
 
@@ -46,7 +46,7 @@ class ext extends \phpbb\extension\base
 						$this->container->get('user')->lang['ACP_CAT_CUSTOMISE'],
 						$this->container->get('user')->lang['ACP_EXTENSION_MANAGEMENT'],
 						$this->container->get('user')->lang['ACP_UPLOAD_EXT_TITLE'],
-						
+
 						$this->container->get('user')->lang['ACP_CAT_GENERAL'],
 						$this->container->get('user')->lang['ACP_SERVER_CONFIGURATION'],
 						$this->container->get('user')->lang['ACP_SERVER_SETTINGS']) : ''));

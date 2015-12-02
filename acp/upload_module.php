@@ -49,7 +49,7 @@ class upload_module
 
 		$user->add_lang_ext('forumhulp/upload', 'info_acp_upload');
 		$this->upload_ext_name = 'forumhulp/upload';
-		$md_manager = (version_compare($config['version'], '3.2.*', '<')) ? 
+		$md_manager = (version_compare($config['version'], '3.2.*', '<')) ?
 					new \phpbb\extension\metadata_manager($this->upload_ext_name, $config, $phpbb_extension_manager, $template, $user, $phpbb_root_path) :
 					new \phpbb\extension\metadata_manager($this->upload_ext_name, $config, $phpbb_extension_manager, $template, $phpbb_root_path);
 
@@ -544,9 +544,9 @@ class upload_module
 		global $phpbb_container, $phpbb_root_path, $phpEx, $phpbb_log, $phpbb_extension_manager, $template, $user, $request, $config;
 
 		$user->add_lang('posting');  // For error messages
-		
+
 		if (version_compare($config['version'], '3.2.*', '<'))
-		{ 
+		{
 			if (!class_exists('\fileupload'))
 			{
 				include($phpbb_root_path . 'includes/functions_upload.' . $phpEx);
@@ -589,13 +589,13 @@ class upload_module
 		}
 		else if ($action == 'upload_remote')
 		{
-			$file = (version_compare($config['version'], '3.2.*', '<')) ? 
+			$file = (version_compare($config['version'], '3.2.*', '<')) ?
 					$this->remote_upload($upload, $request->variable('remote_upload', '')) :
 					$upload->handle_upload('files.types.remote', $request->variable('remote_upload', ''));
 		}
 		else if ($action == 'upload_from_phpbb')
 		{
-			$file = (version_compare($config['version'], '3.2.*', '<')) ? 
+			$file = (version_compare($config['version'], '3.2.*', '<')) ?
 					$this->remote_upload($upload, $request->variable('valid_phpbb_ext', '')) :
 					$upload->handle_upload('files.types.remote', $request->variable('valid_phpbb_ext', ''));
 		}
@@ -604,7 +604,7 @@ class upload_module
 			$this->self_update = $request->variable('self_update', '');
 			if ($this->self_update !== false && (preg_match($this->phpbb_link_template, $this->self_update)))
 			{
-				$file = (version_compare($config['version'], '3.2.*', '<')) ? 
+				$file = (version_compare($config['version'], '3.2.*', '<')) ?
 						$this->remote_upload($upload, $this->self_update) :
 						$upload->handle_upload('files.types.remote', $this->self_update, '');
 			}
@@ -644,7 +644,7 @@ class upload_module
 					$this->trigger_error(implode('<br />', $file->error), E_USER_WARNING);
 					return false;
 				}
-				
+
 				$dest_file = $file->get('destination_file');
 			}
 			else
