@@ -9,6 +9,8 @@
 
 namespace forumhulp\upload\acp;
 
+use \forumhulp\upload\includes\extensions_list;
+
 class upload_module
 {
 	public $u_action;
@@ -51,7 +53,7 @@ class upload_module
 		$this->upload_ext_name = 'forumhulp/upload';
 		$md_manager = (version_compare($config['version'], '3.2.*', '<')) ?
 					new \phpbb\extension\metadata_manager($this->upload_ext_name, $config, $phpbb_extension_manager, $template, $user, $phpbb_root_path) :
-					new \phpbb\extension\metadata_manager($this->upload_ext_name, $config, $phpbb_extension_manager, $template, $phpbb_root_path);
+					new \phpbb\extension\metadata_manager($this->upload_ext_name, $config, $phpbb_extension_manager, $phpbb_root_path);
 
 		if (isset($user->lang['ext_details']))
 		{
@@ -106,7 +108,7 @@ class upload_module
 		{
 			case 'details':
 
-				$md_manager->output_template_data();
+				$md_manager->output_template_data($template);
 
 				if ($this->self_update !== false && (preg_match($this->phpbb_link_template, $this->self_update)))
 				{
@@ -480,14 +482,28 @@ class upload_module
 
 	function get_valid_extensions()
 	{
-		global $template, $user;
+		global $template, $user, $request;
 
-		$valid_phpbb_ext = $file_contents = $metadata = '';
-		if (($file_contents = @file_get_contents('http://forumhulp.com/ext/phpbb.json')) && ($metadata = @json_decode($file_contents, true)) && is_array($metadata) && sizeof($metadata))
+		$packages = extensions_list::getPackages();
+		$valid_phpbb_ext = '';
+		if (sizeof($packages))
 		{
-			foreach($metadata as $ext => $value)
+			// Sanitize any data we retrieve from a server
+			$packages = $request->escape($packages, true);
+			foreach ($packages as $ext => $value)
 			{
-				$valid_phpbb_ext .= '<option value="' . $value['download'] . '">' . $ext . ' (' . $user->lang['EXT_VERSION_LETTER'] . $value['version'] . ')</option>';
+				$latest_release = reset($value);
+
+				if (isset($latest_release['dist']) && isset($latest_release['dist']['url']))
+				{
+					$download_link = $latest_release['dist']['url'];
+				}
+				else
+				{
+					continue;
+				}
+
+				$valid_phpbb_ext .= '<option value="' . $download_link . '">' . $latest_release['display_name'] . ' (' . $user->lang['EXT_VERSION_LETTER'] . key($value) . ')</option>';
 			}
 			$template->assign_vars(array('VALID_PHPBB_EXT'	=> $valid_phpbb_ext));
 		}
@@ -559,7 +575,7 @@ class upload_module
 			$upload = $this->files_factory->get('upload')
 				->set_error_prefix('FILE_')
 				->set_allowed_extensions(array('zip'))
-				->set_max_filesize($this->config['avatar_filesize'])
+				->set_max_filesize($config['max_filesize'])
 				->set_allowed_dimensions(0,0,0,0)
 				->set_disallowed_content((isset($config['mime_triggers']) ? explode('|', $config['mime_triggers']) : false));
 		}
@@ -628,7 +644,7 @@ class upload_module
 					$this->trigger_error((sizeof($file->error) ? implode('<br />', $file->error) : $user->lang['NO_UPLOAD_FILE']), E_USER_WARNING);
 					return false;
 				}
-				else if ($file->init_error || sizeof($file->error))
+				else if (sizeof($file->error))
 				{
 					$file->remove();
 					$this->trigger_error((sizeof($file->error) ? implode('<br />', $file->error) : $user->lang['EXT_UPLOAD_INIT_FAIL']), E_USER_WARNING);
