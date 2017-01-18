@@ -15,7 +15,7 @@ class cache
 	private static $whitelist = 'a-z0-9.';
 	private static $cache_prefix = '/upload/';
 	private static $cache_dir = '';
-	
+
 	public static function is_enabled()
 	{
 		if (self::$enabled)
@@ -30,7 +30,7 @@ class cache
 		{
 			self::$enabled = false;
 		}
-		
+
 		return self::$enabled;
 	}
 
@@ -42,7 +42,7 @@ class cache
 		{
 			return self::$cache_dir;
 		}
-		
+
 		return self::$cache_dir = $cache->get_driver()->cache_dir . self::$cache_prefix;
 	}
 
@@ -53,7 +53,7 @@ class cache
 		{
 			return file_get_contents($file);
 		}
-		
+
 		return false;
 	}
 

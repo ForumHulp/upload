@@ -57,9 +57,9 @@ class upload_module
 
 		if (isset($user->lang['ext_details']))
 		{
-			foreach($user->lang['ext_details'] as $key => $value)
+			foreach ($user->lang['ext_details'] as $key => $value)
 			{
-				foreach($value as $desc)
+				foreach ($value as $desc)
 				{
 					$template->assign_block_vars($key, array(
 						'DESCRIPTION'	=> $desc,
@@ -72,7 +72,7 @@ class upload_module
 		{
 			$this->metadata = $md_manager->get_metadata('all');
 		}
-		catch(\phpbb\extension\exception $e)
+		catch (\phpbb\extension\exception $e)
 		{
 			$this->trigger_error($e, E_USER_WARNING);
 		}
@@ -229,7 +229,8 @@ class upload_module
 						{
 							trigger_error($user->lang['EXT_DELETE_ERROR'] . $this->back_link, E_USER_WARNING);
 						}
-					} else {
+					} else
+					{
 						confirm_box(false, $user->lang('EXTENSION_DELETE_CONFIRM', $ext_name), build_hidden_fields(array(
 							'i'			=> $id,
 							'mode'		=> $mode,
@@ -258,7 +259,8 @@ class upload_module
 						{
 							trigger_error($user->lang['EXT_ZIP_DELETE_ERROR'] . $this->back_link, E_USER_WARNING);
 						}
-					} else {
+					} else
+					{
 						confirm_box(false, $user->lang('EXTENSION_ZIP_DELETE_CONFIRM', $zip_name), build_hidden_fields(array(
 							'i'			=> $id,
 							'mode'		=> $mode,
@@ -296,7 +298,7 @@ class upload_module
 		{
 			return false;
 		}
-		foreach($ffs as $ff)
+		foreach ($ffs as $ff)
 		{
 			if ($ff != '.' && $ff != '..')
 			{
@@ -320,7 +322,7 @@ class upload_module
 		$pagination->generate_template_pagination($base_url, 'pagination', 'start', $zip_count, $per_page, $start);
 
 		uasort($zip_array, array($this, 'sort_extension_meta_data_table'));
-		for($i = $start; $i < $zip_count && $i < $start + $per_page; $i++)
+		for ($i = $start; $i < $zip_count && $i < $start + $per_page; $i++)
 		{
 			$template->assign_block_vars('zip', $zip_array[$i]);
 		}
@@ -335,7 +337,7 @@ class upload_module
 			return false;
 		}
 		$composer = false;
-		foreach($ffs as $ff)
+		foreach ($ffs as $ff)
 		{
 			if ($ff != '.' && $ff != '..')
 			{
@@ -344,7 +346,7 @@ class upload_module
 					$composer = $dir . '/' . $ff;
 					break;
 				}
-				if(is_dir($dir.'/'.$ff))
+				if (is_dir($dir.'/'.$ff))
 				{
 					$this->getComposer($dir . '/' . $ff);
 				}
@@ -404,7 +406,7 @@ class upload_module
 				$this->trigger_error($user->lang['NO_UPLOAD_FILE'], E_USER_WARNING);
 				return false;
 			}
-			foreach($files as $file)
+			foreach ($files as $file)
 			{
 				if ($file != '.' && $file != '..')
 				{
@@ -454,7 +456,7 @@ class upload_module
 					'U_ENABLE'			=> $this->main_link . '&amp;action=enable_pre&amp;ext_name=' . urlencode($name)
 				);
 			}
-			catch(\phpbb\extension\exception $e)
+			catch (\phpbb\extension\exception $e)
 			{
 				$available_extension_meta_data[$name] = array(
 					'META_DISPLAY_NAME'	=> (isset($display_ext_name)) ? $display_ext_name : 'Broken extension (' . $name . ')',
@@ -681,7 +683,7 @@ class upload_module
 			{
 				if (!($this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp)))
 				{
-					if($action != 'upload_local')
+					if ($action != 'upload_local')
 					{
 						$file->remove();
 					}
@@ -730,7 +732,7 @@ class upload_module
 			if (!isset($json_a['type']) || $json_a['type'] != "phpbb-extension")
 			{
 				$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
-				if($action != 'upload_local')
+				if ($action != 'upload_local')
 				{
 					$file->remove();
 				}
@@ -753,7 +755,7 @@ class upload_module
 				if (!($this->rcopy($source, $phpbb_root_path . 'ext/' . $source_for_check)))
 				{
 					$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
-					if($action != 'upload_local')
+					if ($action != 'upload_local')
 					{
 						$file->remove();
 					}
@@ -765,10 +767,10 @@ class upload_module
 			$md_manager = $phpbb_extension_manager->create_extension_metadata_manager($source_for_check, $template);
 			try
 			{
-				if($md_manager->get_metadata() === false || $md_manager->validate_require_phpbb() === false || $md_manager->validate_require_php() === false)
+				if ($md_manager->get_metadata() === false || $md_manager->validate_require_phpbb() === false || $md_manager->validate_require_php() === false)
 				{
 					$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
-					if($action != 'upload_local')
+					if ($action != 'upload_local')
 					{
 						$file->remove();
 					}
@@ -776,7 +778,7 @@ class upload_module
 					return false;
 				}
 			}
-			catch(\phpbb\extension\exception $e)
+			catch (\phpbb\extension\exception $e)
 			{
 				$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
 				if($action != 'upload_local')
@@ -799,10 +801,10 @@ class upload_module
 					$display_name = str_replace(array('/', '\\'), '_', $display_name);
 					$ext_version = str_replace(array('/', '\\'), '_', $ext_version);
 					// Save this file and any other files that were uploaded with the same name.
-					if(@file_exists(substr($dest_file, 0, strrpos($dest_file, '/') + 1) . $display_name . "_" . $ext_version . ".zip"))
+					if (@file_exists(substr($dest_file, 0, strrpos($dest_file, '/') + 1) . $display_name . "_" . $ext_version . ".zip"))
 					{
 						$finder = 1;
-						while(@file_exists(substr($dest_file, 0, strrpos($dest_file, '/') + 1) . $display_name . "_" . $ext_version . "(" . $finder . ").zip"))
+						while (@file_exists(substr($dest_file, 0, strrpos($dest_file, '/') + 1) . $display_name . "_" . $ext_version . "(" . $finder . ").zip"))
 						{
 							$finder++;
 						}
@@ -882,7 +884,7 @@ class upload_module
 					$made_update = true;
 				}
 				$old_ext_name = $destination;
-				if($old_composery = $this->getComposer($phpbb_root_path . 'ext/' . $destination))
+				if ($old_composery = $this->getComposer($phpbb_root_path . 'ext/' . $destination))
 				{
 					$old_string = file_get_contents($old_composery);
 					$old_json_a = json_decode($old_string, true);
@@ -941,7 +943,8 @@ class upload_module
 		if ($string !== false)
 		{
 			$readme = \Michelf\MarkdownExtra::defaultTransform($string);
-		} else {
+		} else
+		{
 			$readme = false;
 		}
 
