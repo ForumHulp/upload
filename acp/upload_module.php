@@ -572,7 +572,7 @@ class upload_module
 			$upload = new \fileupload();
 			$upload->set_allowed_extensions(array('zip'));	// Only allow ZIP files
 		} else
-		{
+			{
 			$this->files_factory = $phpbb_container->get('files.factory');
 			$upload = $this->files_factory->get('upload')
 				->set_error_prefix('FILE_')
@@ -781,7 +781,7 @@ class upload_module
 			catch (\phpbb\extension\exception $e)
 			{
 				$this->rrmdir($phpbb_root_path . 'ext/' . $ext_tmp);
-				if($action != 'upload_local')
+				if ($action != 'upload_local')
 				{
 					$file->remove();
 				}
@@ -790,7 +790,7 @@ class upload_module
 			}
 
 			// Save/remove the uploaded archive file.
-			if($action != 'upload_local')
+			if ($action != 'upload_local')
 			{
 				if (($request->variable('keepext', false)) == false)
 				{
