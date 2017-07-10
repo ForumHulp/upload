@@ -42,7 +42,7 @@ $lang = array_merge($lang, array(
 			'NOTICE_2'			=> 'Save zips in a directory of your choice',
 			'NOTICE_3'			=> 'Unpack a zip file to install an extension',
 			'NOTICE_4'			=> 'Extension Cleaner tool',
-			'NOTICE_5'			=> '3.2 ready.',
+			'NOTICE_5'			=> '3.2.1 ready.',
 		)
 	)
 ));

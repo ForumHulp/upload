@@ -12,7 +12,7 @@
 	$("#button_upload").css("display", "inline-block");
 
 	$("#submit, .unpack_zip").click(function () {
-		$("#ext_upload_content").css("display", "none");
+		$("#ext_upload_content").css("opacity", ".3");
 		$("#upload").css("display", "block");
 	});
 

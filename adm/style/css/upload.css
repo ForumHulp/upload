@@ -5,15 +5,16 @@ h1 {position: relative;}
 #keepext {margin-left:10px;}
 
 #ext_upload {float:left; width:100%; margin:0;}
-#remote_upload {width:80%; margin:0; clear:none;}
+#ext_upload > fieldset {background:url(images/spacer.png) repeat;border-radius:15px;border:none;}
+#remote_upload {width:30%; margin-left:10px; float:left;}
 
 #extupload {width:80%; margin-top:5px;}
 
-#br_form_upload {display:block; width:100%; height:10px;}
+#br_form_upload {display:block; clear:both; width:100%; height:10px;}
 
-#ext_table{width:100%; margin-top:16px; border-collapse:collapse;}
+#ext_table{width:100%; margin-top:16px; background:url(images/spacer.png) repeat;}
 
-#upload {display: none; margin: 50px 0; padding: 0; width: 100%; text-align: center;}
+#upload {display: none; position:absolute; margin-top: -70px; padding: 0; width: 100%; text-align: center;}
 
 #uploaded_ok {
     display: inline-block;
@@ -177,14 +178,15 @@ div.filename {
 }
 
 #valid_phpbb_ext_wrapper {
-    margin: 10px 0;
+    margin: 0 0 10px 0;
+	float:left;
 }
 
 .ext_zips_table {
     width: 100%;
     table-layout: fixed;
     margin-top: 16px;
-	border-collapse:collapse;
+	background:url(images/spacer.png) repeat;
 }
 
 .zip_name {

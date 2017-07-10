@@ -40,7 +40,7 @@ class upload_module
 		$id = $request->variable('i', $id);
 		$this->main_link = $this->u_action;
 		$this->back_link = ($request->is_ajax()) ? '' : adm_back_link($this->u_action);
-		$this->phpbb_link_template = '#^(https://)www.phpbb.com/customise/db/download/([0-9]*?)(\?sid\=[a-zA-Z0-9]*?)?$#i';
+		$this->phpbb_link_template = '#^(https://)www.phpbb.com/customise/db/download/([0-9]*?)(/composer|/manual)?/?(\?sid\=[a-zA-Z0-9]*?)?$#i';
 
 		include($phpbb_root_path . 'ext/forumhulp/upload/includes/filetree/filetree.' . $phpEx);
 		$file = $request->variable('file', '');
@@ -51,9 +51,11 @@ class upload_module
 
 		$user->add_lang_ext('forumhulp/upload', 'info_acp_upload');
 		$this->upload_ext_name = 'forumhulp/upload';
-		$md_manager = (version_compare($config['version'], '3.2.*', '<')) ?
-					new \phpbb\extension\metadata_manager($this->upload_ext_name, $config, $phpbb_extension_manager, $template, $user, $phpbb_root_path) :
-					new \phpbb\extension\metadata_manager($this->upload_ext_name, $config, $phpbb_extension_manager, $phpbb_root_path);
+		$md_manager = ((version_compare($config['version'], '3.2.0', '<')) ? 
+						new \phpbb\extension\metadata_manager($this->upload_ext_name, $config, $phpbb_extension_manager, $template, $user, $phpbb_root_path) :
+						((version_compare($config['version'], '3.2.1*', '<')) ? 
+						new \phpbb\extension\metadata_manager($this->upload_ext_name, $config, $phpbb_extension_manager, $phpbb_root_path) :
+						new \phpbb\extension\metadata_manager($this->upload_ext_name, $phpbb_root_path . $phpbb_extension_manager->get_extension_path($this->upload_ext_name))));
 
 		if (isset($user->lang['ext_details']))
 		{
@@ -108,7 +110,7 @@ class upload_module
 		{
 			case 'details':
 
-				$md_manager->output_template_data($template);
+				(version_compare($config['version'], '3.2.1*', '<')) ? $md_manager->output_template_data($template) : $this->output_metadata_to_template($this->metadata);
 
 				if ($this->self_update !== false && (preg_match($this->phpbb_link_template, $this->self_update)))
 				{
@@ -139,15 +141,14 @@ class upload_module
 				{
 					$action = 'upload_local';
 				}
-				else if (strpos($request->variable('remote_upload', ''), 'http://') === 0 || strpos($request->variable('remote_upload', ''), 'https://') === 0)
-				{
-					$action = 'upload_remote';
-				}
-				else if (strpos($request->variable('valid_phpbb_ext', ''), 'http://') === 0 || strpos($request->variable('valid_phpbb_ext', ''), 'https://') === 0)
+				else if (strpos($request->variable('valid_phpbb_ext', ''), 'composer') !== false)
 				{
 					$action = 'upload_from_phpbb';
 				}
-
+				else if (strpos($request->variable('remote_upload', ''), 'ttp://') !== false || strpos($request->variable('remote_upload', ''), 'ttps://') !== false)
+				{
+					$action = 'upload_remote';
+				}
 			case 'upload_remote':
 			case 'force_update':
 			case 'upload_self':
@@ -612,10 +613,10 @@ class upload_module
 					$upload->handle_upload('files.types.remote', $request->variable('remote_upload', ''));
 		}
 		else if ($action == 'upload_from_phpbb')
-		{
+		{		
 			$file = (version_compare($config['version'], '3.2.*', '<')) ?
 					$this->remote_upload($upload, $request->variable('valid_phpbb_ext', '')) :
-					$upload->handle_upload('files.types.remote', $request->variable('valid_phpbb_ext', ''));
+					$this->remote_upload($upload, $request->variable('valid_phpbb_ext', ''));
 		}
 		else if ($action == 'upload_self')
 		{
@@ -655,7 +656,6 @@ class upload_module
 
 				$file->clean_filename('real');
 				$file->move_file(str_replace($phpbb_root_path, '', $upload_dir), true, true);
-
 				if (sizeof($file->error))
 				{
 					$file->remove();
@@ -1021,22 +1021,21 @@ class upload_module
 	 */
 	function remote_upload($files, $upload_url, \phpbb\mimetype\guesser $mimetype_guesser = null)
 	{
-		global $user, $phpbb_root_path;
+		global $user, $config, $phpbb_container, $phpbb_root_path;
 
 		$upload_ary = array();
 		$upload_ary['local_mode'] = true;
-
 		$upload_from_phpbb = preg_match($this->phpbb_link_template, $upload_url, $match_phpbb);
-
+		
 		if (!preg_match('#^(https?://).*?\.(' . implode('|', $files->allowed_extensions) . ')$#i', $upload_url, $match) && !$upload_from_phpbb)
 		{
-			$file = new \fileerror($user->lang[$files->error_prefix . 'URL_INVALID']);
+			$file = new \fileerror($user->lang[$files->error_prefix . 'URL_INVALID1']);
 			return $file;
 		}
 
 		if (empty($match[2]) && empty($match_phpbb[2]))
 		{
-			$file = new \fileerror($user->lang[$files->error_prefix . 'URL_INVALID']);
+			$file = new \fileerror($user->lang[$files->error_prefix . 'URL_INVALID2']);
 			return $file;
 		}
 
@@ -1154,14 +1153,55 @@ class upload_module
 		unset($data);
 
 		$upload_ary['tmp_name'] = $filename;
-
-		$file = new \filespec($upload_ary, $files, $mimetype_guesser);
 		if ($upload_from_phpbb)
 		{
-			$file->extension = 'zip';
+			$upload_ary['name'] .= '.zip';
 		}
-		$files->common_checks($file);
+
+		$file = ((version_compare($config['version'], '3.2.0', '<')) ? 
+					new \filespec($upload_ary, $files, $mimetype_guesser) :
+				$phpbb_container->get('files.factory')->get('filespec')
+				->set_upload_ary($upload_ary)
+				->set_upload_namespace($files));
 
 		return $file;
+	}
+
+	/**
+	* Outputs extension metadata into the template
+	*
+	* @param array $metadata Array with all metadata for the extension
+	* @return null
+	*/
+	public function output_metadata_to_template($metadata)
+	{
+		global $template;
+		$template->assign_vars(array(
+			'META_NAME'			=> $metadata['name'],
+			'META_TYPE'			=> $metadata['type'],
+			'META_DESCRIPTION'	=> (isset($metadata['description'])) ? $metadata['description'] : '',
+			'META_HOMEPAGE'		=> (isset($metadata['homepage'])) ? $metadata['homepage'] : '',
+			'META_VERSION'		=> $metadata['version'],
+			'META_TIME'			=> (isset($metadata['time'])) ? $metadata['time'] : '',
+			'META_LICENSE'		=> $metadata['license'],
+
+			'META_REQUIRE_PHP'		=> (isset($metadata['require']['php'])) ? $metadata['require']['php'] : '',
+			'META_REQUIRE_PHP_FAIL'	=> (isset($metadata['require']['php'])) ? false : true,
+
+			'META_REQUIRE_PHPBB'		=> (isset($metadata['extra']['soft-require']['phpbb/phpbb'])) ? $metadata['extra']['soft-require']['phpbb/phpbb'] : '',
+			'META_REQUIRE_PHPBB_FAIL'	=> (isset($metadata['extra']['soft-require']['phpbb/phpbb'])) ? false : true,
+
+			'META_DISPLAY_NAME'	=> (isset($metadata['extra']['display-name'])) ? $metadata['extra']['display-name'] : '',
+		));
+
+		foreach ($metadata['authors'] as $author)
+		{
+			$template->assign_block_vars('meta_authors', array(
+				'AUTHOR_NAME'		=> $author['name'],
+				'AUTHOR_EMAIL'		=> (isset($author['email'])) ? $author['email'] : '',
+				'AUTHOR_HOMEPAGE'	=> (isset($author['homepage'])) ? $author['homepage'] : '',
+				'AUTHOR_ROLE'		=> (isset($author['role'])) ? $author['role'] : '',
+			));
+		}
 	}
 }
