@@ -51,9 +51,9 @@ class upload_module
 
 		$user->add_lang_ext('forumhulp/upload', 'info_acp_upload');
 		$this->upload_ext_name = 'forumhulp/upload';
-		$md_manager = ((version_compare($config['version'], '3.2.0', '<')) ? 
+		$md_manager = ((version_compare($config['version'], '3.2.0', '<')) ?
 						new \phpbb\extension\metadata_manager($this->upload_ext_name, $config, $phpbb_extension_manager, $template, $user, $phpbb_root_path) :
-						((version_compare($config['version'], '3.2.1*', '<')) ? 
+						((version_compare($config['version'], '3.2.1*', '<')) ?
 						new \phpbb\extension\metadata_manager($this->upload_ext_name, $config, $phpbb_extension_manager, $phpbb_root_path) :
 						new \phpbb\extension\metadata_manager($this->upload_ext_name, $phpbb_root_path . $phpbb_extension_manager->get_extension_path($this->upload_ext_name))));
 
@@ -613,7 +613,7 @@ class upload_module
 					$upload->handle_upload('files.types.remote', $request->variable('remote_upload', ''));
 		}
 		else if ($action == 'upload_from_phpbb')
-		{		
+		{
 			$file = (version_compare($config['version'], '3.2.*', '<')) ?
 					$this->remote_upload($upload, $request->variable('valid_phpbb_ext', '')) :
 					$this->remote_upload($upload, $request->variable('valid_phpbb_ext', ''));
@@ -1026,7 +1026,7 @@ class upload_module
 		$upload_ary = array();
 		$upload_ary['local_mode'] = true;
 		$upload_from_phpbb = preg_match($this->phpbb_link_template, $upload_url, $match_phpbb);
-		
+
 		if (!preg_match('#^(https?://).*?\.(' . implode('|', $files->allowed_extensions) . ')$#i', $upload_url, $match) && !$upload_from_phpbb)
 		{
 			$file = new \fileerror($user->lang[$files->error_prefix . 'URL_INVALID1']);
@@ -1158,7 +1158,7 @@ class upload_module
 			$upload_ary['name'] .= '.zip';
 		}
 
-		$file = ((version_compare($config['version'], '3.2.0', '<')) ? 
+		$file = ((version_compare($config['version'], '3.2.0', '<')) ?
 					new \filespec($upload_ary, $files, $mimetype_guesser) :
 				$phpbb_container->get('files.factory')->get('filespec')
 				->set_upload_ary($upload_ary)
