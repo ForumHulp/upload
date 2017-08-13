@@ -20,28 +20,28 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	'ACP_UPLOAD_EXT_TITLE'			=> 'Subir Extensiones',
 	'ACP_UPLOAD_EXT_CONFIG_TITLE'	=> 'Subir Extensiones',
-	'FH_HELPER_NOTICE'				=> 'Forumhulp helper application does not exist!<br />Download <a href="https://github.com/ForumHulp/helper" target="_blank">forumhulp/helper</a> and copy the helper folder to your forumhulp extension folder.',
-	'UPLOAD_NOTICE'					=> '<div class="phpinfo"><p class="entry">This extension resides in %1$s » %2$s » %3$s.<br />Upload extensions and unpack and enable them!<br />Config settings are in  %4$s » %5$s » %6$s.</p></div>',
+	'FH_HELPER_NOTICE'				=> '¡La aplicación Forumhulp helper no existe!<br />Descargar <a href="https://github.com/ForumHulp/helper" target="_blank">forumhulp/helper</a> y copie la carpeta helper dentro de la carpeta de extensión forumhulp.',
+	'UPLOAD_NOTICE'					=> '<div class="phpinfo"><p class="entry">Está extensión reside en %1$s » %2$s » %3$s.<br />¡Subir extensiones, descomprimir y habilitarlas!<br />Los ajustes de configuración están en %4$s » %5$s » %6$s.</p></div>',
 ));
 
 // Description of Upload extension
 $lang = array_merge($lang, array(
-	'DESCRIPTION_PAGE'		=> 'Description',
-	'DESCRIPTION_NOTICE'	=> 'Extension note',
+	'DESCRIPTION_PAGE'		=> 'Descripción',
+	'DESCRIPTION_NOTICE'	=> 'Nota de la extensión',
 	'ext_details' => array(
 		'details' => array(
-			'DESCRIPTION_1'		=> 'CDB on phpbb.com',
-			'DESCRIPTION_2'		=> 'Local PC',
-			'DESCRIPTION_3'		=> 'Remote server',
-			'DESCRIPTION_4'		=> 'Update phpBB extensions',
-			'DESCRIPTION_5'		=> 'Update already uploaded extensions.',
+			'DESCRIPTION_1'		=> 'CDB en phpBB.com',
+			'DESCRIPTION_2'		=> 'PC local',
+			'DESCRIPTION_3'		=> 'Servidor remoto',
+			'DESCRIPTION_4'		=> 'Actualizar extensiones phpBB',
+			'DESCRIPTION_5'		=> 'Actualizar las extensiones ya subidas.',
 		),
 		'note' => array(
-			'NOTICE_1'			=> 'ZIP files management',
-			'NOTICE_2'			=> 'Save zips in a directory of your choice',
-			'NOTICE_3'			=> 'Unpack a zip file to install an extension',
-			'NOTICE_4'			=> 'Extension Cleaner tool',
-			'NOTICE_5'			=> '3.2.1 ready.',
+			'NOTICE_1'			=> 'Gestión de archivos ZIP',
+			'NOTICE_2'			=> 'Guardar los zips en un directorio de su elección',
+			'NOTICE_3'			=> 'Descomprimir un archivo zip para instalar una extensión',
+			'NOTICE_4'			=> 'Herramienta de limpieza de extensiones',
+			'NOTICE_5'			=> 'Preparado para 3.2.1',
 		)
 	)
 ));
