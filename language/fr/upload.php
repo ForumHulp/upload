@@ -34,6 +34,7 @@ $lang = array_merge($lang, array(
 
 	'EXTENSION_UPLOADED'				=> 'L’extension “%s” a été transférée avec succès.',
 	'EXTENSIONS_AVAILABLE'				=> 'Extensions disponibles',
+	'EXTENSIONS_VENDOR'					=> 'Vendor',
 	'EXTENSION_INVALID_LIST'			=> 'Liste des extensions',
 	'EXTENSION_UPLOADED_ENABLE'			=> 'Activer l’extension transférée',
 	'ACP_UPLOAD_EXT_UNPACK'				=> 'Décompresser l’extension',

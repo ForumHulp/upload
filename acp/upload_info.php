@@ -14,7 +14,7 @@ class upload_info
 	function module()
 	{
 		return array(
-			'filename'    => 'forumhulp\upload\acp\upload_module',
+			'filename'    => '\forumhulp\upload\acp\upload_module',
 			'title'        => 'ACP_UPLOAD_EXT_TITLE',
 			'version'    => '1.0.0',
 			'modes'        => array(

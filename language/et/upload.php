@@ -33,6 +33,7 @@ $lang = array_merge($lang, array(
 
 	'EXTENSION_UPLOADED'				=> 'Laiendus “%s” on edukalt üles laaditud.',
 	'EXTENSIONS_AVAILABLE'				=> 'Üleslaaditud, ning aktiveerimist ootavad laiendused',
+	'EXTENSIONS_VENDOR'					=> 'Vendor',
 	'EXTENSION_INVALID_LIST'			=> 'Laienduste nimekiri',
 	'EXTENSION_UPLOADED_ENABLE'			=> 'Luba üles laaditud laiendused',
 	'ACP_UPLOAD_EXT_UNPACK'				=> 'Paki laiendus lahti',

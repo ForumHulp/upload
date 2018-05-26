@@ -34,6 +34,7 @@ $lang = array_merge($lang, array(
 
 	'EXTENSION_UPLOADED'				=> 'افزونه “%s” با موفقیت به روز رسانی شد.',
 	'EXTENSIONS_AVAILABLE'				=> 'افزونه های در دسترس',
+	'EXTENSIONS_VENDOR'					=> 'Vendor',
 	'EXTENSION_INVALID_LIST'			=> 'لیست افزونه',
 	'EXTENSION_UPLOADED_ENABLE'			=> 'فعال سازی افزونه های آپلود شده',
 	'ACP_UPLOAD_EXT_UNPACK'				=> 'باز کردن افزونه',

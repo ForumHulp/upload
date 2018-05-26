@@ -33,6 +33,7 @@ $lang = array_merge($lang, array(
 
 	'EXTENSION_UPLOADED'				=> 'Plugin “%s” har laddats upp.',
 	'EXTENSIONS_AVAILABLE'				=> 'tillgängliga plugin',
+	'EXTENSIONS_VENDOR'					=> 'Vendor',
 	'EXTENSION_INVALID_LIST'			=> 'Lista över plugin',
 	'EXTENSION_UPLOADED_ENABLE'			=> 'Aktivera uppladdat plugin.',
 	'ACP_UPLOAD_EXT_UNPACK'				=> 'Packa upp plugin',

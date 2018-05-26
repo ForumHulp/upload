@@ -85,14 +85,17 @@
 				<!-- IF VALID_PHPBB_EXT -->
 				<div id="valid_phpbb_ext_wrapper">
 					{L_VALID_PHPBB_EXTENSIONS}{L_COLON}
-					<select id="valid_phpbb_ext" name="valid_phpbb_ext">
+					<select id="valid_phpbb_ext" name="valid_phpbb_ext" style="visibility:hidden;">
 						<option value="">---</option>{VALID_PHPBB_EXT}
 					</select>
 				</div>
 				<!-- ENDIF -->
+                <div class="fileinputs">
+                  	<input type="file" class="inputfile" id="extupload" name="extupload" size="10" data-multiple-caption="count extension selected" accept=".zip" />
+                    <label for="extupload"><i class="fa fa-upload"></i> <span>Choose a file</span></label>
+                </div>
 				<input type="text" id="remote_upload" name="remote_upload" />
-				<input type="button" id="button_upload" style="display:none;margin-left:5px;" value="{L_BROWSE}" onclick="browseFile();" />
-				<input type="file" id="extupload" name="extupload" accept=".zip" onchange="setFileName();" />
+                
                 {S_FORM_TOKEN}
                 {S_HIDDEN_FIELDS}
                 <span id="br_form_upload"></span>
@@ -108,12 +111,12 @@
     <tbody>
     <tr class="row2">
         <td><strong>{L_ZIP_UPLOADED}</strong></td>
-        <td style="text-align: center;">{L_ACTION}</td>
+        <td>{L_ACTION}</td>
     </tr>
     <!-- BEGIN zip -->
     <tr class="ext_disabled row-highlight">
 		<td class="zip_name"><div class="ext_zip_name"><strong>{zip.META_DISPLAY_NAME}</strong></div></td>
-        <td style="text-align: center;">
+        <td>
 			<a href="{zip.U_UPLOAD}" class="unpack_zip">{L_ACP_UPLOAD_EXT_UNPACK}</a> | <a href="{zip.U_DOWNLOAD}">{L_DOWNLOAD}</a> | <a href="{zip.U_DELETE}" data-ajax="row_delete">{L_EXTENSION_ZIP_DELETE}</a>
 		</td>
     </tr>
@@ -137,14 +140,16 @@
 		<tbody>
         <tr class="row2">
             <td><strong>{L_EXTENSIONS_AVAILABLE}</strong></td>
-            <td style="text-align: center;">{L_VERSION}</td>
-            <td style="text-align: center;">{L_ACTION}</td>
+            <td>{L_EXTENSIONS_VENDOR}</td>
+            <td>{L_VERSION}</td>
+            <td>{L_ACTION}</td>
         </tr>
         <!-- BEGIN disabled -->
         <tr class="ext_disabled row-highlight">
             <td><strong>{disabled.META_DISPLAY_NAME}</strong></td>
-            <td style="text-align: center;">{disabled.META_VERSION}</td>
-            <td style="text-align: center;">
+            <td><a href="{disabled.META_HOMEPAGE}" target="_blank">{disabled.META_VENDOR}</a></td>
+            <td class="versiondata" data-version="{disabled.U_CHECK}">{disabled.META_VERSION}</td>
+            <td>
                 <!-- IF disabled.U_DELETE -->
                 <a href="{disabled.U_DELETE}" data-ajax="row_delete" class="delete_link">{L_EXTENSION_DELETE}</a> | <a href="{disabled.U_ENABLE}" data-ajax="row_delete" class="delete_link">{L_EXTENSION_ENABLE}</a>
                 <!-- ENDIF -->

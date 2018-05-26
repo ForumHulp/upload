@@ -33,6 +33,7 @@ $lang = array_merge($lang, array(
 
 	'EXTENSION_UPLOADED'				=> 'L\'estensione “%s” è stata caricata.',
 	'EXTENSIONS_AVAILABLE'				=> 'Estensioni disponibili',
+	'EXTENSIONS_VENDOR'					=> 'Vendor',
 	'EXTENSION_INVALID_LIST'			=> 'Elenco estensioni',
 	'EXTENSION_UPLOADED_ENABLE'			=> 'Abilita l\'estensione caricata',
 	'ACP_UPLOAD_EXT_UNPACK'				=> 'Estrai estensione',

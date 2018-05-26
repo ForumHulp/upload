@@ -6,13 +6,15 @@ h1 {position: relative;}
 
 #ext_upload {float:left; width:100%; margin:0;}
 #ext_upload > fieldset {background:url(images/spacer.png) repeat;border-radius:15px;border:none;}
-#remote_upload {width:30%; margin-left:10px; float:left;}
+#remote_upload {width:20%; margin-left:10px; float:left;display:none;}
 
 #extupload {width:80%; margin-top:5px;}
 
 #br_form_upload {display:block; clear:both; width:100%; height:10px;}
 
 #ext_table{width:100%; margin-top:16px; background:url(images/spacer.png) repeat;}
+#ext_table td:nth-child(1) {text-align: left;}
+#ext_table td {text-align: center;}
 
 #upload {display: none; position:absolute; margin-top: -70px; padding: 0; width: 100%; text-align: center;}
 
@@ -188,6 +190,8 @@ div.filename {
     margin-top: 16px;
 	background:url(images/spacer.png) repeat;
 }
+.ext_zips_table td:nth-child(1) {text-align: left;}
+.ext_zips_table td {text-align: center;}
 
 .zip_name {
     width: 50%;
@@ -199,6 +203,128 @@ div.ext_zip_name {
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 100%;
+}
+
+.fileinputs {
+	margin-left:10px;
+	float:left;
+	display:none;
+}
+
+.fileinputs > label {
+	font-size:1.2em;font-weight:700;color:white;background-color:#105289;display:inline-block;padding:1px 5px;
+}
+.fileinputs > label > span {
+	font-size:.7em;font-weight:normal;
+}
+
+.fileinputs > input {
+	width:0.1px;height:0.1px;opacity:0;overflow:hidden;position:absolute;z-index:-1;
+}
+
+.file-wrapper {
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  float:right;
+}
+
+.file-wrapper .button {
+  background: none;
+  border-color:transparent;
+  padding:0;
+  color: #536482;
+  font-size:1em;
+  font-weight:normal;
+  cursor: pointer;
+  display: inline-block;
+}
+.file-wrapper input {
+  cursor: pointer;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.file-wrapper input {
+  filter: alpha(opacity=50);
+  -moz-opacity: 0.5;
+  opacity: 0.5;
+}
+.file-wrapper input {
+  filter: alpha(opacity=1);
+  -moz-opacity: 0.01;
+  opacity: 0.01;
+}
+
+.s-hidden {
+  visibility:hidden;
+  padding-right:10px;
+}
+
+.select {
+  cursor:pointer;
+  display:inline-block;
+  position:relative;
+  color:black;
+  border:1px solid #ccc;
+}
+
+.styledSelect {
+  position:absolute;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  background-color:white;
+  padding:0 10px;
+}
+
+.styledSelect:after {
+  content:"";
+  width:0;
+  height:0;
+  border:5px solid transparent;
+  border-color:black transparent transparent transparent;
+  position:absolute;
+  top:9px;
+  right:6px;
+}
+
+.styledSelect:active,
+.styledSelect.active {
+  background-color:#eee;
+}
+
+.selectoptions {
+  max-height:200px;
+  overflow-y:scroll;
+  display:none;
+  position:absolute;
+  top:100%;
+  right:0;
+  left:0;
+  z-index:999;
+  margin:0 0;
+  padding:0 0;
+  list-style:none;
+  border:1px solid #ccc;
+  background-color:white;
+  -webkit-box-shadow:0 1px 2px rgba(0,0,0,0.2);
+  -moz-box-shadow:0 1px 2px rgba(0,0,0,0.2);
+  box-shadow:0 1px 2px rgba(0,0,0,0.2);
+}
+
+.selectoptions li {
+  margin:0 0;
+  padding:0 10px;
+}
+
+.selectoptions li:hover {
+  background-color:#39f;
+  color:white;
 }
 
 .php-file-tree {

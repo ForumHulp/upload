@@ -108,6 +108,21 @@ class upload_module
 
 		switch ($action)
 		{
+			case 'detail':
+				$md_manager = ((version_compare($config['version'], '3.2.0', '<')) ?
+							new \phpbb\extension\metadata_manager($request->variable('ext_name', ''), $config, $phpbb_extension_manager, $template, $user, $phpbb_root_path) :
+							((version_compare($config['version'], '3.2.1*', '<')) ?
+							new \phpbb\extension\metadata_manager($request->variable('ext_name', ''), $config, $phpbb_extension_manager, $phpbb_root_path) :
+							new \phpbb\extension\metadata_manager($request->variable('ext_name', ''), $phpbb_root_path . $phpbb_extension_manager->get_extension_path($request->variable('ext_name', '')))));
+				$updates_available = $this->version_check($md_manager, 1);
+				
+				$result = (isset($updates_available[1]['current']) && version_compare($updates_available[1]['current'], $md_manager->get_metadata('version'), '>')) ? 
+						'<span style="color:red;font-weight:bold;">' . $updates_available[1]['current'] . ' <i class="fa fa-exclamation-circle outdated-ext"></i></span>' : 
+						'<span style="color:green;font-weight:bold">' . $md_manager->get_metadata('version') . '</span>';
+				$json_response = new \phpbb\json_response;
+				$json_response->send($result);
+			break;
+
 			case 'details':
 
 				(version_compare($config['version'], '3.2.1*', '<')) ? $md_manager->output_template_data($template) : $this->output_metadata_to_template($this->metadata);
@@ -453,8 +468,11 @@ class upload_module
 				$available_extension_meta_data[$name] = array(
 					'META_DISPLAY_NAME'	=> $display_ext_name,
 					'META_VERSION'		=> $meta['version'],
+					'META_VENDOR'		=> ucfirst(strtok($meta['name'], '/')),
+					'META_HOMEPAGE'		=> $meta['homepage'],
 					'U_DELETE'			=> $this->main_link . '&amp;action=delete&amp;ext_name=' . urlencode($name),
-					'U_ENABLE'			=> $this->main_link . '&amp;action=enable_pre&amp;ext_name=' . urlencode($name)
+					'U_ENABLE'			=> $this->main_link . '&amp;action=enable_pre&amp;ext_name=' . urlencode($name),
+					'U_CHECK'			=> $this->main_link . '&amp;action=detail&amp;ext_name=' . urlencode($name)
 				);
 			}
 			catch (\phpbb\extension\exception $e)
@@ -462,6 +480,8 @@ class upload_module
 				$available_extension_meta_data[$name] = array(
 					'META_DISPLAY_NAME'	=> (isset($display_ext_name)) ? $display_ext_name : 'Broken extension (' . $name . ')',
 					'META_VERSION'		=> (isset($meta['version'])) ? $meta['version'] : '0.0.0',
+					'META_VENDOR'		=> ucfirst(strtok($meta['name'], '/')),
+					'META_HOMEPAGE'		=> $meta['homepage'],
 					'U_DELETE'			=> $this->main_link . '&amp;action=delete&amp;ext_name=' . urlencode($name),
 				);
 			}
@@ -506,9 +526,9 @@ class upload_module
 					continue;
 				}
 
-				$valid_phpbb_ext .= '<option value="' . $download_link . '">' . $latest_release['display_name'] . ' (' . $user->lang['EXT_VERSION_LETTER'] . key($value) . ')</option>';
+				$valid_phpbb_ext .= '<option value="' . $download_link . '">' . $latest_release['display_name'] . ' (' . $user->lang['EXT_VERSION_LETTER'] . key($value) . ')~' . ucfirst(strtok($latest_release['name'], '/')) . '</option>';
 			}
-			$template->assign_vars(array('VALID_PHPBB_EXT'	=> $valid_phpbb_ext));
+			$template->assign_vars(array('VALID_PHPBB_EXT' => $valid_phpbb_ext));
 		}
 	}
 

@@ -33,6 +33,7 @@ $lang = array_merge($lang, array(
 
 	'EXTENSION_UPLOADED'				=> 'Расширение “%s” загружено успешно.',
 	'EXTENSIONS_AVAILABLE'				=> 'Доступные расширения',
+	'EXTENSIONS_VENDOR'					=> 'Vendor',
 	'EXTENSION_INVALID_LIST'			=> 'Список расширений',
 	'EXTENSION_UPLOADED_ENABLE'			=> 'Включить загруженное расширение',
 	'ACP_UPLOAD_EXT_UNPACK'				=> 'Распаковать расширение',

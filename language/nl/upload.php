@@ -33,6 +33,7 @@ $lang = array_merge($lang, array(
 
 	'EXTENSION_UPLOADED'				=> 'Extensie “%s” succesvol geüpload.',
 	'EXTENSIONS_AVAILABLE'				=> 'Beschikbare extensies',
+	'EXTENSIONS_VENDOR'					=> 'Vendor',
 	'EXTENSION_INVALID_LIST'			=> 'Lijst van extensies',
 	'EXTENSION_UPLOADED_ENABLE'			=> 'Schakel de geüploade extensie in',
 	'ACP_UPLOAD_EXT_UNPACK'				=> 'Extensie uitpakken',

@@ -34,6 +34,7 @@ $lang = array_merge($lang, array(
 
 	'EXTENSION_UPLOADED'				=> 'تم رفع الإضافة “%s” بنجاح.',
 	'EXTENSIONS_AVAILABLE'				=> 'الإضافات المتوفرة',
+	'EXTENSIONS_VENDOR'					=> 'Vendor',
 	'EXTENSION_INVALID_LIST'			=> 'قائمة الإضافة',
 	'EXTENSION_UPLOADED_ENABLE'			=> 'تفعيل هذه الإضافة',
 	'ACP_UPLOAD_EXT_UNPACK'				=> 'فك الضغط',
