@@ -469,7 +469,7 @@ class upload_module
 					'META_DISPLAY_NAME'	=> $display_ext_name,
 					'META_VERSION'		=> $meta['version'],
 					'META_VENDOR'		=> ucfirst(strtok($meta['name'], '/')),
-					'META_HOMEPAGE'		=> $meta['homepage'],
+					'META_HOMEPAGE'		=> isset($meta['homepage']) ? $meta['homepage'] : '',
 					'U_DELETE'			=> $this->main_link . '&amp;action=delete&amp;ext_name=' . urlencode($name),
 					'U_ENABLE'			=> $this->main_link . '&amp;action=enable_pre&amp;ext_name=' . urlencode($name),
 					'U_CHECK'			=> $this->main_link . '&amp;action=detail&amp;ext_name=' . urlencode($name)

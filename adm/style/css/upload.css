@@ -270,6 +270,7 @@ div.ext_zip_name {
   position:relative;
   color:black;
   border:1px solid #ccc;
+  width:340px;
 }
 
 .styledSelect {
